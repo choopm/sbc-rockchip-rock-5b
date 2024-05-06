@@ -12,5 +12,20 @@ vars:
   uboot_version: 2024.01
   uboot_sha256: b99611f1ed237bf3541bdc8434b68c96a6e05967061f992443cb30aabebef5b3
   uboot_sha512: 45bd093ba3bda23e43cdde83d8656c1ee1348ac2886ecff1fee475f101ac4965a5be6565408fa5b990c723f3fdc833edfca60a719f735a43040cd14a1b59a88b
+
+  # renovate: datasource=git-refs versioning=git depName=https://github.com/rockchip-linux/rkbin
+  rkbin_ref: a2a0b89b6c8c612dca5ed9ed8a68db8a07f68bc0
+  rkbin_sha256: 9df375316869daadbf874410f4097591c32cc2dca5a30fd328ea7a1cd8f8b6a8
+  rkbin_sha512: 715253b5ef5c7fbcbce8478d4dea5ad3d1b4b738da437b5f0e9b31eed20f9bcb86cab082e4c04c69b42b6ffcc2cbb1a31079b33b968bb76826ff0dd4f83043e1
+
+  # renovate: datasource=git-refs versioning=git depName=https://gitlab.collabora.com/hardware-enablement/rockchip-3588/u-boot.git
+  collabora_uboot_ref: 5557bfdc869a2b4f5c5394e6702d32ed5768c7ba
+  collabora_uboot_sha256: b56026253205f45605edee46d415511ab1bdfc77fe3d80ab47fce66f8dba6875
+  collabora_uboot_sha512: 9bef96ee388cccca1cd03418d3f2309f5a63c7928fcc08d016a5ced3d87f7e42d74787d666ced15f2eb0d3115c41900f2b7a8d2d96905607816cf403625b7a8f
+
+  # renovate: datasource=git-refs versioning=git depName=https://gitlab.collabora.com/hardware-enablement/rockchip-3588/trusted-firmware-a.git
+  collabora_trusted_firmware_a_ref: 002d8e85ce5f4f06ebc2c2c52b4923a514bfa701
+  collabora_trusted_firmware_a_sha256: fdb0f64c7ffaf2eea74f4da3cd94d35231a0056ca4c18423ca759d08bdae0320
+  collabora_trusted_firmware_a_sha512: 4fbe7a66dab5c56d72e2738b1993544c589fef91a3b45ca9078b868494216b4f069eefd9a6bd6bd8bf33805970c3bae6d72f4b86b0efe9d2b68c47d399fb2c42
 labels:
   org.opencontainers.image.source: https://github.com/siderolabs/sbc-rockchip

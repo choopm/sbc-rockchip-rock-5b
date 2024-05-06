@@ -1,0 +1,33 @@
+name: trusted-firmware-a-rock5b
+variant: scratch
+shell: /toolchain/bin/bash
+dependencies:
+  - stage: base
+steps:
+  - sources:
+      - url: https://gitlab.collabora.com/hardware-enablement/rockchip-3588/trusted-firmware-a/-/archive/{{ .collabora_trusted_firmware_a_ref }}/trusted-firmware-a-{{ .collabora_trusted_firmware_a_ref }}.tar.bz2
+        destination: trusted-firmware-a.tar.bz2
+        sha256: "{{ .collabora_trusted_firmware_a_sha256 }}"
+        sha512: "{{ .collabora_trusted_firmware_a_sha512 }}"
+    env:
+      SOURCE_DATE_EPOCH: {{ .BUILD_ARG_SOURCE_DATE_EPOCH }}
+    prepare:
+      - |
+        mkdir -p /usr/bin \
+          && ln -sf /toolchain/bin/env /usr/bin/env
+
+        tar xf trusted-firmware-a.tar.bz2 --strip-components=1
+    # rk3588
+    build:
+      - |
+        make realclean
+
+        TF_LDFLAGS=--no-warn-rwx-segments CFLAGS=--param=min-pagesize=0 make -j $(nproc) PLAT=rk3588 DEBUG=0 bl31
+    install:
+      - |
+        mkdir -p /rootfs/trusted-firmware-a/rk3588
+
+        cp build/rk3588/release/bl31/bl31.elf /rootfs/trusted-firmware-a/rk3588/bl31.elf
+finalize:
+  - from: /rootfs
+    to: /libs

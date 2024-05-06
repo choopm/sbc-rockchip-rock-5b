@@ -13,3 +13,7 @@ finalize:
     to: /rootfs/profiles
   - from: /pkg/rock4cplus
     to: /rootfs/profiles
+  - from: /pkg/rock5b
+    to: /rootfs/profiles
+  - from: /pkg/rock5a
+    to: /rootfs/profiles

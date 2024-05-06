@@ -8,6 +8,8 @@ dependencies:
   - stage: rockpi4
   - stage: rockpi4c
   - stage: rock4cplus
+  - stage: rock5b
+  - stage: rock5a
   - stage: profiles
   - stage: u-boot-nanopi-r4s
     platform: linux/arm64
@@ -20,6 +22,10 @@ dependencies:
   - stage: u-boot-rockpi4c
     platform: linux/arm64
   - stage: u-boot-rock4cplus
+    platform: linux/arm64
+  - stage: u-boot-rock5b
+    platform: linux/arm64
+  - stage: u-boot-rock5a
     platform: linux/arm64
   - image: "{{ .BUILD_ARG_PKGS_PREFIX }}/kernel:{{ .BUILD_ARG_PKGS }}"
     platform: linux/arm64
@@ -45,6 +51,16 @@ dependencies:
     platform: linux/arm64
     from: /dtb/rockchip/rk3399-rock-4c-plus.dtb
     to: /rootfs/artifacts/arm64/dtb/rockchip/rk3399-rock-4c-plus.dtb
+  # TODO use variable
+  - image: "ghcr.io/choopm/kernel:v1.7.0-10-g33131f7"
+    platform: linux/arm64
+    from: /dtb/rockchip/rk3588-rock-5b.dtb
+    to: /rootfs/artifacts/arm64/dtb/rockchip/rk3588-rock-5b.dtb
+  # TODO use variable
+  - image: "ghcr.io/choopm/kernel:v1.7.0-10-g33131f7"
+    platform: linux/arm64
+    from: /dtb/rockchip/rk3588s-rock-5a.dtb
+    to: /rootfs/artifacts/arm64/dtb/rockchip/rk3588s-rock-5a.dtb
 finalize:
   - from: /rootfs
     to: /

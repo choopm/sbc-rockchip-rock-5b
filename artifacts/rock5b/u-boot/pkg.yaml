@@ -1,0 +1,51 @@
+# References:
+#   U-Boot:
+#     - https://u-boot.readthedocs.io/en/latest
+name: u-boot-rock5b
+variant: scratch
+shell: /toolchain/bin/bash
+dependencies:
+  - stage: base
+  - stage: rkbin
+  # - stage: trusted-firmware-a-rock5b
+steps:
+  - sources:
+      - url: https://gitlab.collabora.com/hardware-enablement/rockchip-3588/u-boot/-/archive/{{ .collabora_uboot_ref }}/u-boot-{{ .collabora_uboot_ref }}.tar.bz2
+        destination: u-boot.tar.bz2
+        sha256: "{{ .collabora_uboot_sha256 }}"
+        sha512: "{{ .collabora_uboot_sha512 }}"
+    env:
+      SOURCE_DATE_EPOCH: {{ .BUILD_ARG_SOURCE_DATE_EPOCH }}
+    prepare:
+      # rk3588
+      - |
+        mkdir -p /usr/bin \
+          && ln -sf /toolchain/bin/env /usr/bin/env \
+          && ln -sf /toolchain/bin/python3 /toolchain/bin/python
+
+        pip3 install pyelftools \
+          && ln -sf /toolchain/bin/python3 /toolchain/bin/python
+
+        pip3 install pyelftools
+
+        tar xf u-boot.tar.bz2 --strip-components=1
+      - |
+        make rock5b-rk3588_defconfig
+    build:
+      # use binary firmware
+      - |
+        make -j $(nproc) HOSTLDLIBS_mkimage="-lssl -lcrypto" \
+        ROCKCHIP_TPL=/libs/rkbin/bin/rk35/rk3588_ddr_lp4_2112MHz_lp5_2400MHz_v1.16.bin \
+        BL31=/libs/rkbin/bin/rk35/rk3588_bl31_v1.45.elf
+      # or use collabora trusted-firmware-a (requires stage trusted-firmware-a-rock5b):
+      # - |
+      #   make -j $(nproc) HOSTLDLIBS_mkimage="-lssl -lcrypto" \
+      #   ROCKCHIP_TPL=/libs/rkbin/bin/rk35/rk3588_ddr_lp4_2112MHz_lp5_2400MHz_v1.16.bin \
+      #   BL31=/libs/trusted-firmware-a/rk3588/bl31.elf
+    install:
+      - |
+        mkdir -p /rootfs/artifacts/arm64/u-boot/rock5b
+        cp u-boot-rockchip.bin /rootfs/artifacts/arm64/u-boot/rock5b
+finalize:
+  - from: /rootfs
+    to: /rootfs
